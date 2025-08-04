@@ -1,11 +1,8 @@
 ---
-layout: default
-title: Home
+layout: home
+title: "R3HCS Blog"
 ---
 
-# Welcome to the R3HCS Devlog
+Welcome to the R3HCS Development Blog — covering simulation, FEM, and plugin development in Unreal Engine.
 
-This is the public record of development for the Realtime 3D Heat Conduction Simulator (R3HCS), including authorship, goals, and development milestones.
-
-- [Why I Rebuilt R3HCS](./_posts/2025-08-02-why-i-rebuilt-r3hcs.md)
-- [Portfolio](https://username.github.io/portfolio/)
+## Recent Posts

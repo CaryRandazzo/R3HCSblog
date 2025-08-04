@@ -13,8 +13,19 @@ This is the public record of development for the Realtime 3D Heat Conduction Sim
 
 - [Portfolio](https://caryrandazzo.github.io/portfolio/)
 
-## Recent Posts
+## Featured Posts
 
 - [Why I Rebuilt R3HCS](/2025/08/02/why-i-rebuilt-r3hcs.html)
 
 After leading development on a real-time simulation system in a prior role, I decided to build an original version to push performance and ownership further...[continue](/2025/08/02/why-i-rebuilt-r3hcs.html)
+
+## Recent Posts
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url }}">{{ post.title }}</a>
+      <small>— {{ post.date | date: "%B %d, %Y" }}</small>
+    </li>
+  {% endfor %}
+</ul>

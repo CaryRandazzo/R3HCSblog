@@ -1,6 +1,9 @@
 ---
-layout: home
-title: "R3HCS Devlog"
+title: "R3HCS Blog"
+description: "Simulation, Unreal, and FEM Devlog"
+theme: jekyll-theme-minimal
+author: C
+url: "https://caryrandazzo.github.io"
 ---
 
 # Welcome to the R3HCS Development Blog

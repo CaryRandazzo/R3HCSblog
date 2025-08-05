@@ -5,8 +5,14 @@ author: C
 url: "https://caryrandazzo.github.io"
 
 nav_links:
+  - name: DevBlogs
+    url: devblogs
   - name: Portfolio
     url: portfolio
+  - name: Products
+    url: products
+  - name: Services
+    url: services
   - name: LinkedIn
     url: https://www.linkedin.com/in/randazzocary/
   - name: Instagram

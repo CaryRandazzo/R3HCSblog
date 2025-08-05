@@ -40,7 +40,7 @@
         {% endif %}
 
         {% for link in site.custom_links %}
-          <a href="{{ link.url }}">{{ link.name }}</a>{% unless forloop.last %} {% endunless %}
+          <a href="{{ link.url }}">{{ link.name }}</a><br>
         {% endfor %}
       </header>
       <section>

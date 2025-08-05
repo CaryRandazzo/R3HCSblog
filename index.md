@@ -11,8 +11,6 @@ url: "https://caryrandazzo.github.io"
 
 This is the public record of development for the Realtime 3D Heat Conduction Simulator (R3HCS), including authorship, goals, and development milestones.
 
-- [Portfolio](https://caryrandazzo.github.io/portfolio/)
-
 ## Featured Posts
 
 - [Why I Rebuilt R3HCS](/2025/08/02/why-i-rebuilt-r3hcs.html)

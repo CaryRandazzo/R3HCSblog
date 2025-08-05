@@ -4,7 +4,7 @@ theme: jekyll-theme-minimal
 author: C
 url: "https://caryrandazzo.github.io"
 
-custom_links:
+nav_links:
   - name: Portfolio
     url: portfolio
   - name: LinkedIn

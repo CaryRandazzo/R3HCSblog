@@ -1,5 +1,5 @@
 ---
-title: "R3HCS Blog"
+title: "R3HCS Development Blog"
 description: "Simulation, Unreal, and FEM Devlog"
 theme: jekyll-theme-minimal
 author: C

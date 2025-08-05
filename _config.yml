@@ -3,3 +3,9 @@ description: "Simulation, Unreal, and FEM Devlog"
 theme: jekyll-theme-minimal
 author: C
 url: "https://caryrandazzo.github.io"
+
+custom_links:
+  - name: Google
+  url: www.google.com
+  - name: Email
+  url: mailto:randazzocary@gmail.com

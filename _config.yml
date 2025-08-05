@@ -5,7 +5,11 @@ author: C
 url: "https://caryrandazzo.github.io"
 
 custom_links:
-  - name: Google
-    url: https://www.google.com
-  - name: Email
+  - name: Portfolio
+    url: portfolio
+  - name: LinkedIn
+    url: https://www.linkedin.com/in/randazzocary/
+  - name: Instagram
+    url: https://www.instagram.com/p/DIjlEl7uPdP/
+  - name: "Email Me"
     url: mailto:randazzocary@gmail.com

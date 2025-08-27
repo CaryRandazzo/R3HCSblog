@@ -28,4 +28,4 @@ I do not intend to post complete source code, but there will be plenty of detail
 It's going to be complex and exciting, if you can learn something interesting along the way, feel free to follow along.
 
 See you in the next post,
- - Cary
+Cary

@@ -6,16 +6,17 @@ url: "https://caryrandazzo.github.io"
 
 nav_links:
   - name: DevBlogs
-    url: devblogs
+    url: https://www.example.com/
   - name: Portfolio
     url: portfolio
   - name: Products
-    url: products
+    url: https://www.example.com/
   - name: Services
-    url: services
+    url: https://www.example.com/
   - name: LinkedIn
     url: https://www.linkedin.com/in/randazzocary/
   - name: Instagram
     url: https://www.instagram.com/p/DIjlEl7uPdP/
   - name: "Email Me"
     url: mailto:randazzocary@gmail.com
+# is there anything in jekyll minimal that lets you categorize blog posts --- r3hcs, ml, vr, etc. do that instead of a catch all blog

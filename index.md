@@ -9,13 +9,13 @@ url: "https://caryrandazzo.github.io"
 # Welcome to the R3HCS Development Blog
  Covering simulation, FEM, and plugin development in Unreal Engine.
 
-This is the public record of development for the Realtime 3D Heat Conduction Simulator (R3HCS), including authorship, goals, and development milestones.
+This is the public record of development for the Realtime 3D Heat Conduction Simulator (R3HCS) including goals and development milestones.
 
 ## Featured Posts
 
 - [Why I Rebuilt R3HCS](/2025/08/02/why-i-rebuilt-r3hcs.html)
 
-After leading development on a real-time simulation system in a prior role, I decided to build an original version to push performance and ownership further...[continue](/2025/08/02/why-i-rebuilt-r3hcs.html)
+After leading development on a real-time simulation system in a prior role, I decided to build an original version to push my skills further as well as the performance of the system while experimenting with a variety of different approaches...[continue](/2025/08/02/why-i-rebuilt-r3hcs.html)
 
 ## Recent Posts
 

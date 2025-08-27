@@ -19,7 +19,7 @@ After leading development on this simulation system in that prior role, I decide
 
 What will happen next on the project, you say?
 
-This clean take on Real-Time 3D Heat Conduction will utilize and acknowledge publically available information frequently as the field if heat conduction simulation has a long history and is rich in information. So, my next post will focus on initial designs, expected features, requirements of R3HCS, etc. from conception to deployment. 
+This clean take on Real-Time 3D Heat Conduction will utilize and acknowledge publically available information frequently as the field of heat conduction simulation has a long history and is rich in information. So, my next post will focus on initial designs, expected features, requirements of R3HCS, and so on, from conception to deployment. 
 
 It is likely that some of this will change and be modified as the project continues forward, but this initial map of the problem will keep us grounded toward the goal of R3HCS which is of course, Real-Time 3D Heat Conduction in Unreal Engine.
 
@@ -28,4 +28,4 @@ I do not intend to post complete source code, but there will be plenty of detail
 It's going to be complex and exciting, if you can learn something interesting along the way, feel free to follow along.
 
 See you in the next post,
-- Cary
+ - Cary

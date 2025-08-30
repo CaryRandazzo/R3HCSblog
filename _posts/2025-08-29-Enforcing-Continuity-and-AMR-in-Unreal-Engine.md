@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Enforcing Continuity and AMR in Unreal Engine"
-date: 2025-08-27
+date: 2025-08-30
 ---
 
 Good day,
@@ -20,7 +20,8 @@ Lets think about a specific example. We have a mesh and somewhere in the mesh AM
 
 Topological refinement where we split the coarse block face to match the refined face should be best for physics simulation continuity. 
 
-<b>Step 1</b>
+<b>Step 1 - Map Connecting Faces</b>
+
 So, the first step is to construct a method to identify and reference faces on elements for detecting if a face is shared between elements. I have been using hexahedral elements for simplicity.
 
 <b>A discussion of TMap, unordered_maps in C++ STL, and Performance</b>
@@ -32,6 +33,7 @@ TMap functions as a key-value pair container, similar to a hash map or dictionar
 <b>The Performance of TMap and unordered_maps in Unreal Engine C++</b>
 
 - unordered_map TMap in UE
+<br>
 The complexity of lookup for std::map is O(log N) (logarithmic in the size of the container).
 
 Per Paragraph 23.4.4.3/4 of the C++11 Standard on std::map::operator []:
@@ -50,7 +52,7 @@ TMap is effectively a reimplementation of unordered_map in the UE ecosystem. TMa
 
 We can verify this by inspection of the source code which can reveal its design principles and in what ways hash table was implemented to achieve the same kind of performance.Additionally, the official UE Documentation as well as discussions with the community have revealed some of these details, but the former method of looking at the source code is the most authoritative source on the matter.
 
-A quick example:
+<b>A Quick Example of TMap</b>
 
 ```cpp
 // Declare the TMap.
@@ -94,6 +96,7 @@ MyMap.Remove(12345);
 To me, these kind of nuances are why it is important to use the tools UE has implemented over raw C++ alternatives. With respect to project development, interfacing, and performance, it is essential.
 
 <b>Implementation</b>
+
 Returning to the task at hand, the goal is to map each face (face hash) of each block in the mesh to all blocks that share that same face (face hash) along with which face (face index) this shared face has relative to the original face (face hash). So, the key will be the face hash and the value will be an array of block (block index) that are connected to that face (face hash) along with which face (face index owned by block index) is connected.
 
 With that implemented, ... (to be continued)

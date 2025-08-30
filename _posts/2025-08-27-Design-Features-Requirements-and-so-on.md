@@ -15,6 +15,7 @@ I had learned from previous exercises that making custom components in UE has it
 Performance will be a key requirement of this project. For it to be Real-Time it should feel as such. Thus, some thought will be put into what and how the performance is constrained and optimized. Time Complexity Analysis of algorithms will be done prior to implementation and initially the system will utilize the CPU, but the door will be open for utilizing GPU based compute shaders courtesy of UE and my local hardware GPU.
 
 <b> Hardware Used</b>
+
 Speaking of local hardware, the hardware setup that I am currently running on and will be testing this system on is as follows:
 8GB VRAM NVidia GeForce RTX 4060 TI
 32GB RAM

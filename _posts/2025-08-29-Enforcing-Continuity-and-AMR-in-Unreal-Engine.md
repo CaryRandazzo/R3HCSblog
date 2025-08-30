@@ -33,7 +33,7 @@ TMap functions as a key-value pair container, similar to a hash map or dictionar
 <b>The Performance of TMap and unordered_maps in Unreal Engine C++</b>
 
 - unordered_map TMap in UE
-<br>
+<br><br>
 The complexity of lookup for std::map is O(log N) (logarithmic in the size of the container).
 
 Per Paragraph 23.4.4.3/4 of the C++11 Standard on std::map::operator []:

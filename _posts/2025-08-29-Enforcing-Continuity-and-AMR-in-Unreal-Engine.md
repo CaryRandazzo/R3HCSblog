@@ -51,6 +51,8 @@ TMap is effectively a reimplementation of unordered_map in the UE ecosystem. TMa
 We can verify this by inspection of the source code which can reveal its design principles and in what ways hash table was implemented to achieve the same kind of performance.Additionally, the official UE Documentation as well as discussions with the community have revealed some of these details, but the former method of looking at the source code is the most authoritative source on the matter.
 
 A quick example:
+
+```cpp
 // Declare the TMap.
 TMap<uint64, TArray<FIntPoint>> MyMap;
 
@@ -87,7 +89,7 @@ for (const TPair<uint64, TArray<FIntPoint>>& Pair : MyMap)
 
 // 4. Remove a key-value pair.
 MyMap.Remove(12345);
-
+```
 
 To me, these kind of nuances are why it is important to use the tools UE has implemented over raw C++ alternatives. With respect to project development, interfacing, and performance, it is essential.
 

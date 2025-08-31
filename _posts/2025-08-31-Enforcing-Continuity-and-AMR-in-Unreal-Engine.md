@@ -1,41 +1,58 @@
 ---
 layout: post
 title: "Enforcing Continuity and AMR in Unreal Engine"
-date: 2025-08-30
+date: 2025-08-31
 ---
 
 Good day,
 
 Recently, I had been thinking about the construction of Adaptive Meshing Systems for R3HCS and wanted to describe and record my learning, understanding, and design for it.
 
-The more I work with the Unreal Engine, the more I am learning nuances and advantages to one approach over the other. Today, I have been going over and researching the process by which continuity across mesh objects, specifically faces for hexahedral elements, is enforced during Adaptive Mesh Refinement (AMR) for Finite Element Method(FEM) based solutions. 
+The more I work with the Unreal Engine, the more I am learning nuances and advantages to one approach over the other. Today, I have been going over and researching the process by which continuity across mesh objects, specifically faces for hexahedral elements, is enforced during Adaptive Mesh Refinement (AMR) for Finite Element Method(FEM) based solutions.
 
 The primary issue is that when a coarse element shares a face with refined elements, that face and the other face that shares that space must be geometrically consistent, or else it will cause rendering issues, solver issues, and interpolation and surface smoothing issues.
 
-Three of the main methods for enforcing continuity between coarse and refined faces in the mesh are the methods of Hanging Node Constraints (FEM style), Conforming Refinement (refine the neighbors, I believe it was called green refinement), and Render-Time Patch Tesselation. Enforcing continuity in one of these ways is necessary for rendering AMR for heat conduction, deformations, or physics based shading for example, as well as avoiding visible seams, cracks, or inconsistent normals between adjascent elements of different refinement levels.
+Three of the main methods for enforcing continuity between coarse and refined faces in the mesh are the methods of Hanging Node Constraints (FEM style), Conforming Refinement (refine the neighbors, I believe it was called green refinement), and Render-Time Patch Tesselation. Enforcing continuity in one of these ways is necessary for rendering AMR for heat conduction, deformations, or physics based shading for example, as well as avoiding visible seams, cracks, or inconsistent normals between adjacent elements of different refinement levels.
+
+## Continuity Enforcement Options
+
+- Hanging Node Constraints (FEM style)
+...
+
+- Conforming Refinement (green refinement)
+...
+
+- Render-Time Patch Tessellation
+...
 
 My preference would be to keep unrefined neighboring elements coarse, so I will choose to use the first of those mentioned methods.
 
-Lets think about a specific example. We have a mesh and somewhere in the mesh AMR was triggered based on field error and a piece of the mesh was refined. On the boundary of those refined elements, coarse and refined elements exist whose nodes do not necessary match. First, the coarse element's face has 4 nodes, but now the matching coarse neighbor with 4 nodes has been refined to 4 elements (on the boundary) where there are now 4 vertices per element on that shared face boundary. All 4 refined elements will create a set of 9 unique vertices, 4 of which is shared between it and the coarse face, thus, the coarse face needs vertices added in the same way the refined elements were created (using midpoints).
+## Specific Example
 
-Topological refinement where we split the coarse block face to match the refined face should be best for physics simulation continuity. 
+Let’s think about a specific example. We have a mesh and somewhere in the mesh AMR was triggered based on field error and a piece of the mesh was refined. On the boundary of those refined elements, coarse and refined elements exist whose nodes do not necessary match.
 
-<b>Step 1 - Map Connecting Faces</b>
+First, the coarse element’s face has 4 nodes, but now the matching coarse neighbor with 4 nodes has been refined to 4 elements (on the boundary) where there are now 4 vertices per element on that shared face boundary. All 4 refined elements will create a set of 9 unique vertices, 4 of which is shared between it and the coarse face, thus, the coarse face needs vertices added in the same way the refined elements were created (using midpoints).
+
+Topological refinement where we split the coarse block face to match the refined face should be best for physics simulation continuity.
+
+(diagram placeholder)
+
+## Design: Mapping Shared Faces
+
+### Step 1:
 
 So, the first step is to construct a method to identify and reference faces on elements for detecting if a face is shared between elements. I have been using hexahedral elements for simplicity.
 
-<b>A discussion of TMap, unordered_maps in C++ STL, and Performance</b>
+#### A Discussion of TMap, unordered_maps in C++ STL, and Performance
 
-One of the key data structures I have been utilizing when working on development is the TMap. TMap is an Unreal Engine(UE)-specific version of the same hash table structure in the C++ Standard Template Library(STL) template that gives "unordered_map" its average O(1) complexity. It achieves this complexity with worst case scenario giving O(N) when there are poor hashes and hash collisions. It is one of the core container classes provided by UE for C++ development, alongside TArray and TSet.
+One of the key data structures I have been utilizing when working on development is the TMap. TMap is an Unreal Engine(UE)-specific version of the same hash table structure in the C++ Standard Template Library(STL) template that gives “unordered_map” its average O(1) complexity. It achieves this complexity with worst case scenario giving O(N) when there are poor hashes and hash collisions. It is one of the core container classes provided by UE for C++ development, alongside TArray and TSet.
 
 TMap functions as a key-value pair container, similar to a hash map or dictionary in other programming languages. It leverages hashing for efficient storage and retrieval of data, making it a fundamental tool for managing various types of information within Unreal Engine projects.
 
-<b>The Performance of TMap and unordered_maps in Unreal Engine C++</b>
+#### The Performance of TMap and unordered_maps in Unreal Engine C++
 
-- unordered_map TMap in UE
-<br><br>
+##### unordered_map TMap in UE
 The complexity of lookup for std::map is O(log N) (logarithmic in the size of the container).
-
 Per Paragraph 23.4.4.3/4 of the C++11 Standard on std::map::operator []:
 
 Complexity: logarithmic.
@@ -46,13 +63,13 @@ Per Paragraph 23.5.4.3/4 of the C++11 Standard on std::unordered_map::operator [
 
 Complexity: Average case O(1), worst case O(size()).
 
-- TMap
+##### TMap
 
 TMap is effectively a reimplementation of unordered_map in the UE ecosystem. TMap is designed to work efficiently within the Unreal Engine, including with interactions with the reflection system and it will often utiliize contiguous memory blocks for better cache performance compared to potential linked-list-based bucket implementations in some std::unordered_map versions.
 
 We can verify this by inspection of the source code which can reveal its design principles and in what ways hash table was implemented to achieve the same kind of performance.Additionally, the official UE Documentation as well as discussions with the community have revealed some of these details, but the former method of looking at the source code is the most authoritative source on the matter.
 
-<b>A Quick Example of TMap</b>
+#### A Quick Example of TMap
 
 ```cpp
 // Declare the TMap.
@@ -95,11 +112,11 @@ MyMap.Remove(12345);
 
 To me, these kind of nuances are why it is important to use the tools UE has implemented over raw C++ alternatives. With respect to project development, interfacing, and performance, it is essential.
 
-<b>Implementation</b>
+## Implementation
 
-Time to implement it. Each face will be mapped as a (face hash) of each block in the mesh to all blocks that share that same face (face hash) along with which face (face index) this shared face has relative to the original face (face hash). So, the key will be the face hash and the value will be an array of block (block index) that are connected to that face (face hash) along with which face (face index owned by block index) is connected.
+I will now map each face of each block to all blocks that share it, along with which local face index is connected. The key is a face hash; the value is an array of (block index, face index) pairs.
 
-... (to be continued)
+
 
 See you in the next post,
 <br>Cary

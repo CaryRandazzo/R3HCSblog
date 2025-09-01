@@ -16,8 +16,7 @@ $$
 \begin{aligned}
 &\textbf{function } \textbf{GetAdjacentFaces}(\text{FaceMap}, k): \\
 &\quad \textbf{if } k \in \text{FaceMap}: \textbf{return } \text{FaceMap}[k] \\
-&\quad \textbf{else}: \\
-&\qquad \textbf{return } \emptyset
+&\quad \textbf{else}: \textbf{return } \emptyset
 \end{aligned}
 $$
 

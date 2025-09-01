@@ -14,9 +14,9 @@ Step 2 will be to find adjacent faces to any face of any element. So, the map of
 
 $$
 \begin{aligned}
-&\textbf{function } \textbf{GetAdjacentFaces}(\text{FaceMap}, k): \\
-&\quad \textbf{if } k \in \text{FaceMap}: \textbf{return } \text{FaceMap}[k] \\
-&\quad \textbf{else}: \textbf{return } \emptyset
+&\textbf{function } \text{GetAdjacentFaces}(\text{faceRegistry},\; \text{key}): \\
+&\quad \textbf{if } \text{key exists in faceRegistry}: \quad \textbf{return } \text{all entries mapped to key} \\
+&\quad \textbf{else}: \quad \textbf{return } \emptyset
 \end{aligned}
 $$
 
@@ -30,11 +30,11 @@ For step 3, after getting two adjacent faces, the next step is to determine if e
 $$
 \begin{aligned}
 &\textbf{function } \text{ClassifyCoarseRefined}(a, b): \\
-&\quad \ell_a \gets \text{Level}(\text{Elements}[a.\text{ElemIndex}]) \\
-&\quad \ell_b \gets \text{Level}(\text{Elements}[b.\text{ElemIndex}]) \\
-&\quad \textbf{if } \ell_a = \ell_b: \textbf{return } (\text{SameLevel}, a, b) \\
-&\quad \textbf{if } \ell_a < \ell_b: \textbf{return } (\text{CoarseRefined}, a, b) \\
-&\quad \textbf{else: } \textbf{return } (\text{CoarseRefined}, b, a)
+&\quad \ell_a \gets \text{refinement level of element associated with } a \\
+&\quad \ell_b \gets \text{refinement level of element associated with } b \\
+&\quad \textbf{if } \ell_a = \ell_b: \quad \textbf{return } (\text{SameLevel}, a, b) \\
+&\quad \textbf{if } \ell_a < \ell_b: \quad \textbf{return } (\text{CoarseRefined}, a, b) \\
+&\quad \textbf{else:} \quad \textbf{return } (\text{CoarseRefined}, b, a)
 \end{aligned}
 $$
 
@@ -47,21 +47,21 @@ RegisterInterace flags the two faces for continuity enforcement. Continuity on t
 $$
 \begin{aligned}
 &\textbf{procedure } \text{FindAndRegisterInterfaces}: \\
-&\quad \textbf{for each } k \in \text{FaceMap}: \\
-&\qquad \textbf{if } |\text{FaceMap[k]}| = 2: \\
-&\qquad\quad (t,\; A,\; B) \gets \text{ClassifyCoarseRefined}(\text{FaceMap}[k][0],\; \text{FaceMap}[k]][1]) \\
-&\qquad\quad \textbf{if } t = \text{CoarseRefined} \textbf{ and } A.\text{isOnSurface} \land B.\text{isOnSurface}: \\
-&\qquad\qquad \text{RegisterInterface}(k,\; \text{Coarse}=A,\; \text{Refined}=B) \\
-&\qquad \textbf{else if } |\text{FaceMap[k]}| = 1: \\
-&\qquad\quad \text{RegisterBoundary}(k,\; \text{FaceMap}[k][0]) \\
-&\qquad \textbf{else}: \\
-&\qquad\quad \text{HandleNonManifold}(k,\; \text{FaceMap[k]}) \\
+&\textbf{procedure } \text{FindAndRegisterInterfaces}: \\
+&\quad \textbf{for each } \text{shared face between two elements:} \\
+&\qquad \textbf{if } \text{both sides of the face exist:} \\
+&\qquad\quad \text{determine if the face is between a coarse and a refined element} \\
+&\qquad\quad \textbf{if } \text{both elements are on the visible surface:} \\
+&\qquad\qquad \text{mark this face for patching later} \\
+&\qquad \textbf{else if } \text{only one side exists:} \\
+&\qquad\quad \text{record as a boundary} \\
+&\qquad \textbf{else:} \\
+&\qquad\quad \text{log as a non-manifold face} \\
 \\
-&\textbf{procedure } \text{RegisterInterface}(k,\; \text{Coarse},\; \text{Refined}): \\
-&\quad \text{InterfaceRegistry.push}(\langle k,\; \text{Coarse},\; \text{Refined} \rangle) \\
-\\
-&\textbf{procedure } \text{RegisterBoundary}(k,\; A): \quad \text{BoundaryRegistry.push}(\langle k,\; A \rangle) \\
-&\textbf{procedure } \text{HandleNonManifold}(k,\; \text{FaceMap[k]}): \quad \text{NonManifoldLog.push}(\langle k,\; \text{FaceMap[k]} \rangle)
+&\textbf{procedure } \text{EnforceMeshContinuity}: \\
+&\quad \textbf{for each } \text{face marked for patching:} \\
+&\qquad \text{identify the coarse element and face index} \\
+&\qquad \text{generate and emit a patch to ensure mesh continuity} \\
 \end{aligned}
 $$
 
@@ -73,18 +73,19 @@ First, enforce continuity along the field using the constraint method. Then, enf
 $$
 \begin{aligned}
 &\textbf{EnforceSolverContinuity} \\
-&\quad \textbf{for each } I \in \text{InterfaceRegistry}: \\
-&\qquad (k, \text{Coarse}, \text{Refined}) \gets I \\
-&\qquad M \gets \text{MidpointsOnFace}(k) \\
-&\qquad C \gets \text{FaceCenter}(k) \\
-&\qquad \textbf{for each } m \in M:\;\; \text{AddConstraint}\!\left(u_m = \tfrac{1}{2}(u_{v_1}+u_{v_2})\right) \\
-&\qquad \textbf{if } C \text{ exists}:\;\; \text{AddConstraint}\!\left(u_C = \tfrac{1}{4}(u_{v_1}+u_{v_2}+u_{v_3}+u_{v_4})\right) \\
+&\quad \textbf{for each } \text{interface marked for solver enforcement:} \\
+&\qquad \text{gather edge midpoints on the shared face} \\
+&\qquad \text{optionally compute center point of the face} \\
+&\qquad \textbf{for each midpoint:} \\
+&\qquad\quad \text{apply solver constraint using adjacent node values} \\
+&\qquad \textbf{if } \text{center point is present:} \\
+&\qquad\quad \text{apply additional constraint using center and corners} \\
 \\
-&\textbf{EnforceMeshContinuity} \\
-&\quad \textbf{for each } I \in \text{InterfaceRegistry}: \\
-&\qquad (k, \text{Coarse}, \text{Refined}) \gets I \\
-&\qquad (CoarseIndex, FaceIndex) \gets FaceMap[k] \\
-&\qquad \text{EmitPatchGeometry}(k)
+&\textbf{procedure } \text{EnforceMeshContinuity}: \\
+&\quad \textbf{for each } \text{face marked for patching:} \\
+&\qquad \text{identify the coarse element and face index} \\
+&\qquad \text{generate and emit a patch to ensure mesh continuity} \\
+\end{aligned}
 \\
 &\textbf{procedure } \text{EmitPatchGeometry}(\text{interface}): \\
 &\quad \text{coarseFace} \leftarrow \text{extract coarse face from interface} \\

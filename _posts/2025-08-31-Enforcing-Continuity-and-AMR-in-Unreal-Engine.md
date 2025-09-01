@@ -53,30 +53,27 @@ So, the first step is to construct a method to identify and reference faces on e
 
 $$
 \begin{aligned}
-&\text{FaceMap} : \text{HashTable from FaceKey} \to \text{List of } (\text{ElemIndex}, \text{FaceIndex}) \\
-&\text{FaceKey} := \text{canonical 4-tuple of node indices for a face (orientation-invariant)} \\
+&\text{faceRegistry} : \text{HashTable from FaceKey} \to \text{List of (ElementID, FaceID)} \\
+&\text{FaceKey} := \text{canonical 4-tuple of node indices representing a face (order-invariant)} \\
 \\
-&\textbf{function } \text{ComputeFaceKey}(e, f): \\
-&\quad V \gets \text{FaceNodes}(e, f) \quad \text{(4 node indices)} \\
+&\textbf{function } \text{ComputeFaceKey}(\text{element}, \text{face}): \\
+&\quad V \gets \text{GetFaceNodes}(\text{element}, \text{face}) \quad \text{(list of 4 node indices)} \\
 &\quad V_{\text{sorted}} \gets \text{SortAscending}(V) \\
-&\quad \textbf{return } \langle V_{\text{sorted}} \rangle \\
+&\quad \textbf{return } V_{\text{sorted}} \\
 \\
-&\textbf{function } \text{FaceNodes}(e, f): \\
-&\quad F \gets \{ \\
-&\qquad 0:\langle 0,1,2,3\rangle,\; 1:\langle 4,5,6,7\rangle,\; 2:\langle 0,1,5,4\rangle, \\
-&\qquad 3:\langle 2,3,7,6\rangle,\; 4:\langle 0,3,7,4\rangle,\; 5:\langle 1,2,6,5\rangle \\
-&\quad \} \\
-&\quad \textbf{return } \langle e.\text{Nodes}[F[f][0]], e.\text{Nodes}[F[f][1]], e.\text{Nodes}[F[f][2]], e.\text{Nodes}[F[f][3]] \rangle \\
+&\textbf{function } \text{GetFaceNodes}(\text{element}, \text{faceID}): \\
+&\quad \text{Use standard face definitions for a hexahedral element} \\
+&\quad \textbf{return } \text{list of 4 node indices for the given face} \\
 \\
-&\textbf{for each element } e \in \text{Elements:} \\
-&\quad \textbf{for each face } f \in e: \\
-&\qquad k \gets \text{ComputeFaceKey}(e, f) \\
-&\qquad \text{FaceMap}[k] \gets \text{FaceMap}[k] \cup \{(e.\text{index}, f)\} \\
+&\textbf{for each } \text{element} \in \text{AllElements}: \\
+&\quad \textbf{for each face } f \in \text{element}: \\
+&\qquad k \gets \text{ComputeFaceKey}(\text{element}, f) \\
+&\qquad \text{faceRegistry}[k] \gets \text{faceRegistry}[k] \cup \{(\text{element.ID}, f)\} \\
 \\
-&\textbf{for each } k \in \text{FaceMap:} \\
-&\quad \textbf{if } |\text{FaceMap}[k]| = 2: \\
-&\qquad \text{Identify coarse vs refined element} \\
-&\qquad \text{Register interface for constraint enforcement}
+&\textbf{for each } k \in \text{faceRegistry}: \\
+&\quad \textbf{if } |\text{faceRegistry}[k]| = 2: \\
+&\qquad \text{Determine refinement levels of the two elements} \\
+&\qquad \text{If one is coarser, register interface for continuity enforcement}
 \end{aligned}
 $$
 

@@ -80,9 +80,9 @@ $$
 \end{aligned}
 $$
 
-This blog outlines the general algorithm. Implementation details are proprietary and remain part of the closed-source R3HCS project.
+This blog outlines the general algorithm. Implementation details are proprietary and remain part of the closed-source R3HCS project at this time.
 
-In the next blog post, I will go into step 2
+That's all for now. In the next blog post, I will go into the remaining steps on enforcing continuity in the context of Adaptive Mesh Refinement for use with mesh based field solving methods such as FEM.
 
 See you in the next post,
 <br>Cary

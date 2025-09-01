@@ -53,11 +53,11 @@ So, the first step is to construct a method to identify and reference faces on e
 
 $$
 \begin{aligned}
-&\text{FaceMap} : \text{HashTable from FaceKey} \to \text{List of } (\text{ElemID}, \text{FaceIdx}) \\
-&\text{FaceKey} := \text{canonical 4-tuple of node IDs for a face (orientation-invariant)} \\
+&\text{FaceMap} : \text{HashTable from FaceKey} \to \text{List of } (\text{ElemIndex}, \text{FaceIndex}) \\
+&\text{FaceKey} := \text{canonical 4-tuple of node indices for a face (orientation-invariant)} \\
 \\
 &\textbf{function } \text{ComputeFaceKey}(e, f): \\
-&\quad V \gets \text{FaceNodes}(e, f) \quad \text{(4 node IDs)} \\
+&\quad V \gets \text{FaceNodes}(e, f) \quad \text{(4 node indices)} \\
 &\quad V_{\text{sorted}} \gets \text{SortAscending}(V) \\
 &\quad \textbf{return } \langle V_{\text{sorted}}[0], V_{\text{sorted}}[1], V_{\text{sorted}}[2], V_{\text{sorted}}[3] \rangle \\
 \\
@@ -71,7 +71,7 @@ $$
 &\textbf{for each element } e \in \text{Elements:} \\
 &\quad \textbf{for each face } f \in e: \\
 &\qquad k \gets \text{ComputeFaceKey}(e, f) \\
-&\qquad \text{FaceMap}[k] \gets \text{FaceMap}[k] \cup \{(e.\text{id}, f)\} \\
+&\qquad \text{FaceMap}[k] \gets \text{FaceMap}[k] \cup \{(e.\text{index}, f)\} \\
 \\
 &\textbf{for each } k \in \text{FaceMap:} \\
 &\quad \textbf{if } |\text{FaceMap}[k]| = 2: \\

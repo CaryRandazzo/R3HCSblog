@@ -14,10 +14,14 @@ Step 2 will be to find adjacent faces to any face of any element. So, the map of
 
 $$
 \begin{aligned}
-&\textbf{function } \text{GetAdjacentFaces}(\text{FaceMap}, k): \\
-&\quad \textbf{return } \text{FaceMap}[k] \quad \text{// list of } (\text{ElemID}, \text{FaceIdx})
+&\textbf{function } \textbf{GetAdjacentFaces}(\text{FaceMap}, k): \\
+&\quad \textbf{if } k \in \text{FaceMap}: \\
+&\qquad \textbf{return } \text{FaceMap}[k] \quad \text{// list of } (\text{ElemIndex}, \text{FaceIndex}) \\
+&\quad \textbf{else}: \\
+&\qquad \textbf{return } \emptyset
 \end{aligned}
 $$
+
 
 ## Step 3 - Classify two faces as Coarse or Refined
 
@@ -26,8 +30,8 @@ For step 3, after getting two adjacent faces, the next step is to determine if e
 $$
 \begin{aligned}
 &\textbf{function } \text{ClassifyCoarseRefined}(a, b): \\
-&\quad \ell_a \gets \text{Level}(\text{Elements}[a.\text{ElemID}]) \\
-&\quad \ell_b \gets \text{Level}(\text{Elements}[b.\text{ElemID}]) \\
+&\quad \ell_a \gets \text{Level}(\text{Elements}[a.\text{ElemIndex}]) \\
+&\quad \ell_b \gets \text{Level}(\text{Elements}[b.\text{ElemIndex}]) \\
 &\quad \textbf{if } \ell_a = \ell_b: \textbf{return } (\text{SameLevel}, a, b) \\
 &\quad \textbf{if } \ell_a < \ell_b: \textbf{return } (\text{CoarseRefined}, a, b) \\
 &\quad \textbf{else: } \textbf{return } (\text{CoarseRefined}, b, a)
@@ -55,7 +59,6 @@ $$
 &\qquad\quad \text{HandleNonManifold}(k, \text{Adj}) \\
 \\
 &\textbf{procedure } \text{RegisterInterface}(k, \text{Coarse}, \text{Refined}): \\
-&\quad \text{// enqueue bookkeeping only; no constraints here} \\
 &\quad \text{InterfaceRegistry.push}(\langle k, \text{Coarse}, \text{Refined}\rangle) \\
 \\
 &\textbf{procedure } \text{RegisterBoundary}(k, A): \quad \text{BoundaryRegistry.push}(\langle k, A\rangle) \\

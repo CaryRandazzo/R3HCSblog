@@ -91,54 +91,40 @@ $$
 
 $$
 \begin{aligned}
-&\textbf{procedure } \text{EmitPatchGeometry}(k,\;\text{coarse},\;\text{faceIdx},\;\text{refinedParent}) \\
-&\quad n_u \gets 2,\;\; n_v \gets 2 \quad \text{// uniform 2×2 refinement on neighbor face} \\
+&\textbf{procedure } \text{EmitPatchGeometry}(\text{coarse},\; \text{faceIdx},\; \text{sharedEdge},\; \text{refinedParent}) \\
+&\quad (v_{00}, v_{10}, v_{11}, v_{01}) \gets \text{FaceCornersOrdered}(\text{coarse}, \text{faceIdx}) \\
 \\
-&\quad \text{Vgrid} \gets \emptyset \\
-&\quad \textbf{for } i=0..n_u: \\
-&\qquad u \gets i / n_u \\
-&\qquad \textbf{for } j=0..n_v: \\
-&\qquad\quad v \gets j / n_v \\
-&\qquad\quad (p,n,t,uv) \gets \text{SampleCoarseFace}(\text{coarse},\;\text{faceIdx},\;u,\;v) \\
-&\qquad\quad \text{Vgrid}[i,j] \gets (p,n,t,uv) \\
+&\quad m_{u0} \gets \text{Midpoint}(v_{00}, v_{10}) \quad \text{// bottom edge} \\
+&\quad m_{u1} \gets \text{Midpoint}(v_{01}, v_{11}) \quad \text{// top edge} \\
+&\quad m_{v0} \gets \text{Midpoint}(v_{00}, v_{01}) \quad \text{// left edge} \\
+&\quad m_{v1} \gets \text{Midpoint}(v_{10}, v_{11}) \quad \text{// right edge} \\
+&\quad c \gets \text{FaceCenter}(v_{00}, v_{10}, v_{11}, v_{01}) \\
 \\
-&\quad \text{sharedEdge} \gets \text{WhichBorderOfFace}(\text{faceIdx},\;\text{coarse},\;\text{refinedParent}) \\
-&\quad E \gets \text{RefinedEdgeVerticesOnInterface}(\text{refinedParent},\;\text{faceIdx}) \\
+&\quad grid[0,0] = v_{00},\; grid[1,0] = m_{u0},\; grid[2,0] = v_{10} \\
+&\quad grid[0,1] = m_{v0},\; grid[1,1] = c,\;\;\;\;\;\;\; grid[2,1] = m_{v1} \\
+&\quad grid[0,2] = v_{01},\; grid[1,2] = m_{u1},\; grid[2,2] = v_{11} \\
+\\
+&\quad E \gets \text{RefinedEdgeVerticesOnSharedBorder}(\text{refinedParent}, \text{faceIdx}) \\
+\\
+&\quad \textbf{if } \text{sharedEdge} = \text{LEFT}: \;\; slots \gets \{(0,0),(0,1),(0,2)\} \\
+&\quad \textbf{else if } \text{sharedEdge} = \text{RIGHT}: \; slots \gets \{(2,0),(2,1),(2,2)\} \\
+&\quad \textbf{else if } \text{sharedEdge} = \text{BOTTOM}: \; slots \gets \{(0,0),(1,0),(2,0)\} \\
+&\quad \textbf{else}: \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; slots \gets \{(0,2),(1,2),(2,2)\} \quad \text{// TOP} \\
+\\
 &\quad \textbf{for } q=0..2: \\
-&\qquad (i^*,j^*) \gets \text{MapEdgeSlotToGridIndex}(\text{sharedEdge},\;q,\;n_u,\;n_v) \\
-&\qquad \text{Vgrid}[i^*,j^*].p \gets E[q].p \\
-&\qquad \text{Vgrid}[i^*,j^*].n \gets \text{BlendNormals}(\text{Vgrid}[i^*,j^*].n,\;E[q].n) \\
-&\qquad \text{Vgrid}[i^*,j^*].uv \gets E[q].uv \\
+&\qquad (i,j) \gets slots[q] \\
+&\qquad grid[i,j].pos \gets E[q].pos \\
 \\
-&\quad V \gets \text{FlattenGrid}(\text{Vgrid}),\;\; I \gets \emptyset \\
-&\quad \textbf{for } i=0..(n_u-1): \\
-&\qquad \textbf{for } j=0..(n_v-1): \\
-&\qquad\quad a \gets \text{Idx}(i,   j) \\
-&\qquad\quad b \gets \text{Idx}(i+1,j) \\
-&\qquad\quad c \gets \text{Idx}(i+1,j+1) \\
-&\qquad\quad d \gets \text{Idx}(i,   j+1) \\
-&\qquad\quad I.\text{push}([a,b,c]),\; I.\text{push}([a,c,d]) \\
+&\quad V \gets \text{FlattenGrid}(grid),\;\; I \gets \emptyset \\
+&\quad \textbf{for } i=0..1: \\
+&\qquad \textbf{for } j=0..1: \\
+&\qquad\quad a \gets Idx(i,j),\; b \gets Idx(i+1,j),\; c \gets Idx(i+1,j+1),\; d \gets Idx(i,j+1) \\
+&\qquad\quad I.\text{push}([a,b,c]),\;\; I.\text{push}([a,c,d]) \\
 \\
-&\quad \textbf{return } (V,I) \quad \text{// render-only patch; solver mesh unchanged} \\
+&\quad \textbf{return } (V,I)
 \end{aligned}
 $$
 
-$$
-\begin{aligned}
-&\textbf{function } \text{SampleCoarseFace}(\text{coarse},\;\text{faceIdx},\;u,v): \\
-&\quad \text{return bilinear or isoparametric sample of position, normal, tangent, uv} \\
-\\
-&\textbf{function } \text{WhichBorderOfFace}(\text{faceIdx},\;\text{coarse},\;\text{refinedParent}) \to \{\text{LEFT,RIGHT,BOTTOM,TOP}\} \\
-\\
-&\textbf{function } \text{RefinedEdgeVerticesOnInterface}(\text{refinedParent},\;\text{faceIdx}): \\
-&\quad \text{return ordered list of 3 edge vertices (0, 0.5, 1)} \\
-\\
-&\textbf{function } \text{MapEdgeSlotToGridIndex}(\text{sharedEdge}, q,\; n_u,\; n_v): \\
-&\quad \text{// map edge slot q to grid index (i^*,j^*) for the 3×3 patch} \\
-\\
-&\textbf{function } \text{BlendNormals}(n_a,n_b): \quad \textbf{return } \frac{n_a+n_b}{\|n_a+n_b\|} \\
-\end{aligned}
-$$
 
 
 Once step 5 is completed, there should be continuity in the field for the solver as well as continuity in the mesh for rendering. That sastisfies the goal of this short post series. At some point I may discuss it further, but that is all for now.

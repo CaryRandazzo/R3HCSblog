@@ -85,7 +85,6 @@ $$
 &\quad \textbf{for each } \text{face marked for patching:} \\
 &\qquad \text{identify the coarse element and face index} \\
 &\qquad \text{generate and emit a patch to ensure mesh continuity} \\
-\end{aligned}
 \\
 &\textbf{procedure } \text{EmitPatchGeometry}(\text{interface}): \\
 &\quad \text{coarseFace} \leftarrow \text{extract coarse face from interface} \\

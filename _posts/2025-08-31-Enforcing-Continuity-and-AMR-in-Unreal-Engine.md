@@ -59,7 +59,7 @@ $$
 &\textbf{function } \text{ComputeFaceKey}(e, f): \\
 &\quad V \gets \text{FaceNodes}(e, f) \quad \text{(4 node indices)} \\
 &\quad V_{\text{sorted}} \gets \text{SortAscending}(V) \\
-&\quad \textbf{return } \langle V_{\text{sorted}}[0], V_{\text{sorted}}[1], V_{\text{sorted}}[2], V_{\text{sorted}}[3] \rangle \\
+&\quad \textbf{return } \langle V_{\text{sorted}} \rangle \\
 \\
 &\textbf{function } \text{FaceNodes}(e, f): \\
 &\quad F \gets \{ \\

@@ -21,6 +21,8 @@ $$
 \end{aligned}
 $$
 
+For simplicity, I will skip explicit use of this in practice.
+
 
 ## Step 3 - Classify two faces as Coarse or Refined
 
@@ -47,21 +49,20 @@ $$
 \begin{aligned}
 &\textbf{procedure } \text{FindAndRegisterInterfaces}: \\
 &\quad \textbf{for each } k \in \text{FaceMap}: \\
-&\qquad \text{Adj} \gets \text{GetAdjacentFaces}(\text{FaceMap},\; k) \\
-&\qquad \textbf{if } |\text{Adj}| = 2: \\
-&\qquad\quad (t,\; A,\; B) \gets \text{ClassifyCoarseRefined}(\text{Adj}[0],\; \text{Adj}[1]) \\
+&\qquad \textbf{if } |\text{FaceMap[k]}| = 2: \\
+&\qquad\quad (t,\; A,\; B) \gets \text{ClassifyCoarseRefined}(\text{FaceMap}[k][0],\; \text{FaceMap}[k]][1]) \\
 &\qquad\quad \textbf{if } t = \text{CoarseRefined} \textbf{ and } A.\text{isOnSurface} \land B.\text{isOnSurface}: \\
 &\qquad\qquad \text{RegisterInterface}(k,\; \text{Coarse}=A,\; \text{Refined}=B) \\
-&\qquad \textbf{else if } |\text{Adj}| = 1: \\
-&\qquad\quad \text{RegisterBoundary}(k,\; \text{Adj}[0]) \\
+&\qquad \textbf{else if } |\text{FaceMap[k]}| = 1: \\
+&\qquad\quad \text{RegisterBoundary}(k,\; \text{FaceMap}[k][0]) \\
 &\qquad \textbf{else}: \\
-&\qquad\quad \text{HandleNonManifold}(k,\; \text{Adj}) \\
+&\qquad\quad \text{HandleNonManifold}(k,\; \text{FaceMap[k]}) \\
 \\
 &\textbf{procedure } \text{RegisterInterface}(k,\; \text{Coarse},\; \text{Refined}): \\
 &\quad \text{InterfaceRegistry.push}(\langle k,\; \text{Coarse},\; \text{Refined} \rangle) \\
 \\
 &\textbf{procedure } \text{RegisterBoundary}(k,\; A): \quad \text{BoundaryRegistry.push}(\langle k,\; A \rangle) \\
-&\textbf{procedure } \text{HandleNonManifold}(k,\; \text{Adj}): \quad \text{NonManifoldLog.push}(\langle k,\; \text{Adj} \rangle)
+&\textbf{procedure } \text{HandleNonManifold}(k,\; \text{FaceMap[k]}): \quad \text{NonManifoldLog.push}(\langle k,\; \text{FaceMap[k]} \rangle)
 \end{aligned}
 $$
 
@@ -79,7 +80,6 @@ $$
 &\qquad C \gets \text{FaceCenter}(k) \\
 &\qquad \textbf{for each } m \in M:\;\; \text{AddConstraint}\!\left(u_m = \tfrac{1}{2}(u_{v_1}+u_{v_2})\right) \\
 &\qquad \textbf{if } C \text{ exists}:\;\; \text{AddConstraint}\!\left(u_C = \tfrac{1}{4}(u_{v_1}+u_{v_2}+u_{v_3}+u_{v_4})\right) \\
-&\qquad \text{// later applied via static condensation or multipliers} \\
 \\
 &\textbf{procedure } \text{EmitPatchGeometry}(k): \\
 &\quad (\text{coarseBlock},\; \text{faceIdx}) \gets \text{FaceMap}[k] \\
@@ -89,6 +89,8 @@ $$
 &\quad \textbf{return } \text{PatchGrid}(V,\; M,\; C)
 \end{aligned}
 $$
+
+In reality, a more complex treatment of the continuity in the degrees of freedom will be needed. It will need to be determined where and how this data will affect the global or local matrices or similar of the FEM solver. Thus, AddConstraint will be reviewed at a later time.
 
 $$
 \begin{aligned}

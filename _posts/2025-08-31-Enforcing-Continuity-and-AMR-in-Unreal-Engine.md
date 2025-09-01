@@ -39,12 +39,12 @@ First, the coarse element’s face has 4 nodes, but now the matching coarse neig
 Topological refinement where we split the coarse block face to match the refined face should be best for physics simulation continuity.
 
 <p align="center">
-    <img src="{{site.baseurl}}/assets/img/test.jpg">
+    <img src="https://caryrandazzo.github.io/assets/img/test.jpg">
   <br/>
   <em>Figure: 2D Example of a Hanging Node. Coarse face (4 nodes) adjacent to refined face (2×2 → 9 nodes) with shared edge.</em>
 </p>
 
-![Hanging Nodes](caryrandazzo.github.io/test.png)
+![Hanging Nodes](https://caryrandazzo.github.io/assets/img/test.png)
 
 
 

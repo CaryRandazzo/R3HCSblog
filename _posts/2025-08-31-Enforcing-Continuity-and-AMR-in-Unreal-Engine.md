@@ -38,7 +38,8 @@ First, the coarse element’s face has 4 nodes, but now the matching coarse neig
 
 Topological refinement where we split the coarse block face to match the refined face should be best for physics simulation continuity.
 
-(diagram placeholder)
+![Coarse vs Refined face]( {{ "/assets/images/coarse_refined_faces.png" | relative_url }} )
+
 
 ## Design: Mapping Shared Faces
 

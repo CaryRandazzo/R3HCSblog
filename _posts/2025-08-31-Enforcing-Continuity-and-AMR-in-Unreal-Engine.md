@@ -44,11 +44,6 @@ Topological refinement where we split the coarse block face to match the refined
   <em>Figure: 2D Example of a Hanging Node. Coarse face (4 nodes) adjacent to refined face (2×2 → 9 nodes) with shared edge.</em>
 </p>
 
-![Hanging Nodes](https://caryrandazzo.github.io/assets/img/test.png)
-
-
-
-
 ## Design: Mapping Shared Faces
 
 ### Step 1 Implementation

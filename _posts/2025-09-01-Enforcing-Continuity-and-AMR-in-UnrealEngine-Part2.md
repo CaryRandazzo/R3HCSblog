@@ -82,9 +82,14 @@ $$
 &\qquad \textbf{if } C \text{ exists}:\;\; \text{AddConstraint}\!\left(u_C = \tfrac{1}{4}(u_{v_1}+u_{v_2}+u_{v_3}+u_{v_4})\right) \\
 \\
 &\textbf{EnforceMeshContinuity} \\
+&\quad \textbf{for each } I \in \text{InterfaceRegistry}: \\
+&\qquad (k, \text{Coarse}, \text{Refined}) \gets I \\
+&\qquad (CoarseIndex, FaceIndex) \gets FaceMap[k] \\
+&\qquad \text{EmitPatchGeometry}(k)
+//
 &\textbf{procedure } \text{EmitPatchGeometry}(k): \\
-&\quad (\text{coarseBlock},\; \text{faceIdx}) \gets \text{FaceMap}[k] \\
-&\quad V \gets \text{GetCornerVertices}(\text{coarseBlock},\; \text{faceIdx}) \\
+&\quad (\text{coarseBlock},\; \text{FaceIndex}) \gets \text{FaceMap}[k] \\
+&\quad V \gets \text{GetCornerVertices}(\text{coarseBlock},\; \text{FaceIndex}) \\
 &\quad M \gets \text{ComputeEdgeMidpoints}(V) \\
 &\quad C \gets \text{ComputeFaceCenter}(V) \\
 &\quad \textbf{return } \text{PatchGrid}(V,\; M,\; C)
@@ -95,7 +100,7 @@ In reality, a more complex treatment of the continuity in the degrees of freedom
 
 $$
 \begin{aligned}
-&\textbf{function } \text{GetCornerVertices}(\text{block},\; \text{faceIdx}): \\
+&\textbf{function } \text{GetCornerVertices}(\text{block},\; \text{FaceIndex}): \\
 &\quad \text{return the 4 vertices defining the face} \\
 \\
 &\textbf{function } \text{ComputeEdgeMidpoints}(V): \\

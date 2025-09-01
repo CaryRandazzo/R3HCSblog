@@ -73,7 +73,7 @@ First, enforce continuity along the field using the constraint method. Then, enf
 
 $$
 \begin{aligned}
-&\textbf{CalculateSolverConstraints} \\
+&\textbf{EnforceSolverContinuity} \\
 &\quad \textbf{for each } I \in \text{InterfaceRegistry}: \\
 &\qquad (k, \text{Coarse}, \text{Refined}) \gets I \\
 &\qquad M \gets \text{MidpointsOnFace}(k) \\
@@ -81,6 +81,7 @@ $$
 &\qquad \textbf{for each } m \in M:\;\; \text{AddConstraint}\!\left(u_m = \tfrac{1}{2}(u_{v_1}+u_{v_2})\right) \\
 &\qquad \textbf{if } C \text{ exists}:\;\; \text{AddConstraint}\!\left(u_C = \tfrac{1}{4}(u_{v_1}+u_{v_2}+u_{v_3}+u_{v_4})\right) \\
 \\
+&\textbf{EnforceMeshContinuity} \\
 &\textbf{procedure } \text{EmitPatchGeometry}(k): \\
 &\quad (\text{coarseBlock},\; \text{faceIdx}) \gets \text{FaceMap}[k] \\
 &\quad V \gets \text{GetCornerVertices}(\text{coarseBlock},\; \text{faceIdx}) \\
@@ -112,7 +113,7 @@ $$
 
 
 
-Once step 5 is completed, there should be continuity in the field for the solver as well as continuity in the mesh for rendering. That sastisfies the goal of this short post series. At some point I may discuss it further, but that is all for now.
+Once step 5 is completed, there should be continuity in the mesh for rendering and we have established an introductory treatment to continuity in the field for the solver. That sastisfies the goal of this short post series. At some point I may discuss it further, but that is all for now.
 
 Next time, I may add some more visual content to this subject or work on designing and developing other pieces to the AMR system. There is still quite a list of things that need to be done - as I decide when and what order, I will clarify it within the posts.
 

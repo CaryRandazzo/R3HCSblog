@@ -41,7 +41,7 @@ $$
 
 If two of the faces are classified as coarse-refined, then register that interface. One entry suggests a boundary, greater than two suggests handling of non-manifold is required.
 
-RegisterInterace flags the two faces for continuity enforcement.
+RegisterInterace flags the two faces for continuity enforcement. It is important to note that the continuity on the mesh ONLY needs to be enforced when it is on the surface and the adjacent face is also on a block on the surface. The visible interface would have a crack without patching, and that is the target of this last part.
 
 $$
 \begin{aligned}

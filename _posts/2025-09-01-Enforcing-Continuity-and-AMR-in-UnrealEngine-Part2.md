@@ -45,23 +45,23 @@ RegisterInterace flags the two faces for continuity enforcement.
 
 $$
 \begin{aligned}
-&\textbf{FindAndRegisterInterfaces} \\
-&\quad \textbf{for each } k \in \text{FaceMap:} \\
-&\qquad \text{Adj} \gets \text{GetAdjacentFaces}(\text{FaceMap}, k) \\
+&\textbf{procedure } \text{FindAndRegisterInterfaces}: \\
+&\quad \textbf{for each } k \in \text{FaceMap}: \\
+&\qquad \text{Adj} \gets \text{GetAdjacentFaces}(\text{FaceMap},\; k) \\
 &\qquad \textbf{if } |\text{Adj}| = 2: \\
-&\qquad\quad (t, X, Y) \gets \text{ClassifyCoarseRefined}(\text{Adj}[0], \text{Adj}[1]) \\
-&\qquad\quad \textbf{if } t = \text{CoarseRefined}: \\
-&\qquad\qquad \text{RegisterInterface}(k, \text{Coarse}=X, \text{Refined}=Y) \\
+&\qquad\quad (t,\; A,\; B) \gets \text{ClassifyCoarseRefined}(\text{Adj}[0],\; \text{Adj}[1]) \\
+&\qquad\quad \textbf{if } t = \text{CoarseRefined} \textbf{ and } A.\text{isOnSurface} \land B.\text{isOnSurface}: \\
+&\qquad\qquad \text{RegisterInterface}(k,\; \text{Coarse}=A,\; \text{Refined}=B) \\
 &\qquad \textbf{else if } |\text{Adj}| = 1: \\
-&\qquad\quad \text{RegisterBoundary}(k, \text{Adj}[0]) \\
+&\qquad\quad \text{RegisterBoundary}(k,\; \text{Adj}[0]) \\
 &\qquad \textbf{else}: \\
-&\qquad\quad \text{HandleNonManifold}(k, \text{Adj}) \\
+&\qquad\quad \text{HandleNonManifold}(k,\; \text{Adj}) \\
 \\
-&\textbf{procedure } \text{RegisterInterface}(k, \text{Coarse}, \text{Refined}): \\
-&\quad \text{InterfaceRegistry.push}(\langle k, \text{Coarse}, \text{Refined}\rangle) \\
+&\textbf{procedure } \text{RegisterInterface}(k,\; \text{Coarse},\; \text{Refined}): \\
+&\quad \text{InterfaceRegistry.push}(\langle k,\; \text{Coarse},\; \text{Refined} \rangle) \\
 \\
-&\textbf{procedure } \text{RegisterBoundary}(k, A): \quad \text{BoundaryRegistry.push}(\langle k, A\rangle) \\
-&\textbf{procedure } \text{HandleNonManifold}(k, \text{Adj}): \quad \text{NonManifoldLog.push}(\langle k, \text{Adj}\rangle)
+&\textbf{procedure } \text{RegisterBoundary}(k,\; A): \quad \text{BoundaryRegistry.push}(\langle k,\; A \rangle) \\
+&\textbf{procedure } \text{HandleNonManifold}(k,\; \text{Adj}): \quad \text{NonManifoldLog.push}(\langle k,\; \text{Adj} \rangle)
 \end{aligned}
 $$
 
@@ -81,49 +81,32 @@ $$
 &\qquad \textbf{if } C \text{ exists}:\;\; \text{AddConstraint}\!\left(u_C = \tfrac{1}{4}(u_{v_1}+u_{v_2}+u_{v_3}+u_{v_4})\right) \\
 &\qquad \text{// later applied via static condensation or multipliers} \\
 \\
-&\textbf{BuildRenderPatches} \\
-&\quad \textbf{for each } I \in \text{InterfaceRegistry}: \\
-&\qquad (k, \text{Coarse}, \text{Refined}) \gets I \\
-&\qquad M \gets \text{MidpointsOnFace}(k), \;\; C \gets \text{FaceCenter}(k) \\
-&\qquad \text{EmitPatchGeometry}(k, M, C) \quad \text{// subdivide coarse face in the render mesh only}
+&\textbf{procedure } \text{EmitPatchGeometry}(k): \\
+&\quad (\text{coarseBlock},\; \text{faceIdx}) \gets \text{FaceMap}[k] \\
+&\quad V \gets \text{GetCornerVertices}(\text{coarseBlock},\; \text{faceIdx}) \\
+&\quad M \gets \text{ComputeEdgeMidpoints}(V) \\
+&\quad C \gets \text{ComputeFaceCenter}(V) \\
+&\quad \textbf{return } \text{PatchGrid}(V,\; M,\; C)
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-&\textbf{procedure } \text{EmitPatchGeometry}(\text{coarse},\; \text{faceIdx},\; \text{sharedEdge},\; \text{refinedParent}) \\
-&\quad (v_{00}, v_{10}, v_{11}, v_{01}) \gets \text{FaceCornersOrdered}(\text{coarse}, \text{faceIdx}) \\
+&\textbf{function } \text{GetCornerVertices}(\text{block},\; \text{faceIdx}): \\
+&\quad \text{return the 4 vertices defining the face} \\
 \\
-&\quad m_{u0} \gets \text{Midpoint}(v_{00}, v_{10}) \quad \text{// bottom edge} \\
-&\quad m_{u1} \gets \text{Midpoint}(v_{01}, v_{11}) \quad \text{// top edge} \\
-&\quad m_{v0} \gets \text{Midpoint}(v_{00}, v_{01}) \quad \text{// left edge} \\
-&\quad m_{v1} \gets \text{Midpoint}(v_{10}, v_{11}) \quad \text{// right edge} \\
-&\quad c \gets \text{FaceCenter}(v_{00}, v_{10}, v_{11}, v_{01}) \\
+&\textbf{function } \text{ComputeEdgeMidpoints}(V): \\
+&\quad \text{return midpoints of edges between adjacent corners in } V \\
 \\
-&\quad grid[0,0] = v_{00},\; grid[1,0] = m_{u0},\; grid[2,0] = v_{10} \\
-&\quad grid[0,1] = m_{v0},\; grid[1,1] = c,\;\;\;\;\;\;\; grid[2,1] = m_{v1} \\
-&\quad grid[0,2] = v_{01},\; grid[1,2] = m_{u1},\; grid[2,2] = v_{11} \\
+&\textbf{function } \text{ComputeFaceCenter}(V): \\
+&\quad \text{return average of all 4 corner vertices in } V \\
 \\
-&\quad E \gets \text{RefinedEdgeVerticesOnSharedBorder}(\text{refinedParent}, \text{faceIdx}) \\
-\\
-&\quad \textbf{if } \text{sharedEdge} = \text{LEFT}: \;\; slots \gets \{(0,0),(0,1),(0,2)\} \\
-&\quad \textbf{else if } \text{sharedEdge} = \text{RIGHT}: \; slots \gets \{(2,0),(2,1),(2,2)\} \\
-&\quad \textbf{else if } \text{sharedEdge} = \text{BOTTOM}: \; slots \gets \{(0,0),(1,0),(2,0)\} \\
-&\quad \textbf{else}: \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; slots \gets \{(0,2),(1,2),(2,2)\} \quad \text{// TOP} \\
-\\
-&\quad \textbf{for } q=0..2: \\
-&\qquad (i,j) \gets slots[q] \\
-&\qquad grid[i,j].pos \gets E[q].pos \\
-\\
-&\quad V \gets \text{FlattenGrid}(grid),\;\; I \gets \emptyset \\
-&\quad \textbf{for } i=0..1: \\
-&\qquad \textbf{for } j=0..1: \\
-&\qquad\quad a \gets Idx(i,j),\; b \gets Idx(i+1,j),\; c \gets Idx(i+1,j+1),\; d \gets Idx(i,j+1) \\
-&\qquad\quad I.\text{push}([a,b,c]),\;\; I.\text{push}([a,c,d]) \\
-\\
-&\quad \textbf{return } (V,I)
+&\textbf{function } \text{PatchGrid}(V,\; M,\; C): \\
+&\quad \text{return ordered list of 9 vertices (3×3 grid)} \\
+&\quad \text{Layout: corners, mids, center}
 \end{aligned}
 $$
+
 
 
 

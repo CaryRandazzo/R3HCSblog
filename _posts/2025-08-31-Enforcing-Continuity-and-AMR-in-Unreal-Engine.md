@@ -50,33 +50,20 @@ So, the first step is to construct a method to identify and reference faces on e
 $$
 \begin{aligned}
 &\text{FaceMap} : \text{HashTable from FaceKey} \to \text{List of } (\text{ElemID}, \text{FaceIdx}) \\
-&\text{FaceKey} := \text{canonical 4-tuple of node IDs for a face (orientation-invariant)}
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
+&\text{FaceKey} := \text{canonical 4-tuple of node IDs for a face (orientation-invariant)} \\
+\\
 &\textbf{function } \text{ComputeFaceKey}(e, f): \\
-&\quad \text{V} \gets \text{FaceNodes}(e, f) \quad \text{(4 node IDs)} \\
-&\quad \text{V}_{\text{sorted}} \gets \text{SortAscending}(\text{V}) \\
-&\quad \textbf{return } \langle \text{V}_{\text{sorted}}[0], \text{V}_{\text{sorted}}[1], \text{V}_{\text{sorted}}[2], \text{V}_{\text{sorted}}[3] \rangle \\
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
+&\quad V \gets \text{FaceNodes}(e, f) \quad \text{(4 node IDs)} \\
+&\quad V_{\text{sorted}} \gets \text{SortAscending}(V) \\
+&\quad \textbf{return } \langle V_{\text{sorted}}[0], V_{\text{sorted}}[1], V_{\text{sorted}}[2], V_{\text{sorted}}[3] \rangle \\
+\\
 &\textbf{function } \text{FaceNodes}(e, f): \\
-&\quad \text{// local faces as 4-tuples of local node indices (0..7)} \\
 &\quad F \gets \{ \\
 &\qquad 0:\langle 0,1,2,3\rangle,\; 1:\langle 4,5,6,7\rangle,\; 2:\langle 0,1,5,4\rangle, \\
 &\qquad 3:\langle 2,3,7,6\rangle,\; 4:\langle 0,3,7,4\rangle,\; 5:\langle 1,2,6,5\rangle \\
 &\quad \} \\
-&\quad \textbf{return } \langle e.\text{Nodes}[F[f][0]],\; e.\text{Nodes}[F[f][1]],\; e.\text{Nodes}[F[f][2]],\; e.\text{Nodes}[F[f][3]] \rangle
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
+&\quad \textbf{return } \langle e.\text{Nodes}[F[f][0]], e.\text{Nodes}[F[f][1]], e.\text{Nodes}[F[f][2]], e.\text{Nodes}[F[f][3]] \rangle \\
+\\
 &\textbf{for each element } e \in \text{Elements:} \\
 &\quad \textbf{for each face } f \in e: \\
 &\qquad k \gets \text{ComputeFaceKey}(e, f) \\
@@ -85,9 +72,10 @@ $$
 &\textbf{for each } k \in \text{FaceMap:} \\
 &\quad \textbf{if } |\text{FaceMap}[k]| = 2: \\
 &\qquad \text{Identify coarse vs refined element} \\
-&\qquad \text{Register interface for constraint enforcement} \\
+&\qquad \text{Register interface for constraint enforcement}
 \end{aligned}
 $$
+
 
 This blog outlines the general algorithm. Implementation details are proprietary and remain part of the closed-source R3HCS project.
 

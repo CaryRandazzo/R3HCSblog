@@ -80,8 +80,9 @@ $$
 \end{aligned}
 $$
 
-
 This blog outlines the general algorithm. Implementation details are proprietary and remain part of the closed-source R3HCS project.
+
+In the next blog post, I will go into step 2
 
 See you in the next post,
 <br>Cary

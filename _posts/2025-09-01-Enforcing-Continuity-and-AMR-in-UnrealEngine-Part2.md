@@ -42,7 +42,7 @@ $$
 
 If two of the faces are classified as coarse-refined, then register that interface. One entry suggests a boundary, greater than two suggests handling of non-manifold is required.
 
-RegisterInterace flags the two faces for continuity enforcement. It is important to note that the continuity on the mesh ONLY needs to be enforced when it is on the surface and the adjacent face is also on a block on the surface. The visible interface would have a crack without patching, and that is the target of this last part.
+RegisterInterace flags the two faces for continuity enforcement. Continuity on the mesh will be enforced when it is on the surface and the adjacent face is also on a block on the surface. The visible interface would have a crack without patching, and that is the target of this last part.
 
 $$
 \begin{aligned}
@@ -85,37 +85,21 @@ $$
 &\qquad (k, \text{Coarse}, \text{Refined}) \gets I \\
 &\qquad (CoarseIndex, FaceIndex) \gets FaceMap[k] \\
 &\qquad \text{EmitPatchGeometry}(k)
-//
-&\textbf{procedure } \text{EmitPatchGeometry}(k): \\
-&\quad (\text{coarseBlock},\; \text{FaceIndex}) \gets \text{FaceMap}[k] \\
-&\quad V \gets \text{GetCornerVertices}(\text{coarseBlock},\; \text{FaceIndex}) \\
-&\quad M \gets \text{ComputeEdgeMidpoints}(V) \\
-&\quad C \gets \text{ComputeFaceCenter}(V) \\
-&\quad \textbf{return } \text{PatchGrid}(V,\; M,\; C)
+\\
+&\textbf{procedure } \text{EmitPatchGeometry}(\text{interface}): \\
+&\quad \text{coarseFace} \leftarrow \text{extract coarse face from interface} \\
+&\quad \textbf{if } \text{coarseFace has not been subdivided}: \\
+&\quad\quad \text{compute edge midpoints of the face} \\
+&\quad\quad \text{compute center point of the face} \\
+&\quad \text{construct patch with:} \\
+&\quad\quad \text{— 4 corner vertices} \\
+&\quad\quad \text{— 4 edge midpoints} \\
+&\quad\quad \text{— 1 face center} \\
+&\quad \text{return or submit patch for stitching}
 \end{aligned}
 $$
 
 In reality, a more complex treatment of the continuity in the degrees of freedom will be needed. It will need to be determined where and how this data will affect the global or local matrices or similar of the FEM solver. Thus, AddConstraint will be reviewed at a later time.
-
-$$
-\begin{aligned}
-&\textbf{function } \text{GetCornerVertices}(\text{block},\; \text{FaceIndex}): \\
-&\quad \text{return the 4 vertices defining the face} \\
-\\
-&\textbf{function } \text{ComputeEdgeMidpoints}(V): \\
-&\quad \text{return midpoints of edges between adjacent corners in } V \\
-\\
-&\textbf{function } \text{ComputeFaceCenter}(V): \\
-&\quad \text{return average of all 4 corner vertices in } V \\
-\\
-&\textbf{function } \text{PatchGrid}(V,\; M,\; C): \\
-&\quad \text{return ordered list of 9 vertices (3×3 grid)} \\
-&\quad \text{Layout: corners, mids, center}
-\end{aligned}
-$$
-
-
-
 
 Once step 5 is completed, there should be continuity in the mesh for rendering and we have established an introductory treatment to continuity in the field for the solver. That sastisfies the goal of this short post series. At some point I may discuss it further, but that is all for now.
 

@@ -63,6 +63,31 @@ $$
 \end{aligned}
 $$
 
+$$
+\begin{aligned}
+&\textbf{function } \text{FaceNodes}(e, f): \\
+&\quad \text{// local faces as 4-tuples of local node indices (0..7)} \\
+&\quad F \gets \{ \\
+&\qquad 0:\langle 0,1,2,3\rangle,\; 1:\langle 4,5,6,7\rangle,\; 2:\langle 0,1,5,4\rangle, \\
+&\qquad 3:\langle 2,3,7,6\rangle,\; 4:\langle 0,3,7,4\rangle,\; 5:\langle 1,2,6,5\rangle \\
+&\quad \} \\
+&\quad \textbf{return } \langle e.\text{Nodes}[F[f][0]],\; e.\text{Nodes}[F[f][1]],\; e.\text{Nodes}[F[f][2]],\; e.\text{Nodes}[F[f][3]] \rangle
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+&\textbf{for each element } e \in \text{Elements:} \\
+&\quad \textbf{for each face } f \in e: \\
+&\qquad k \gets \text{ComputeFaceKey}(e, f) \\
+&\qquad \text{FaceMap}[k] \gets \text{FaceMap}[k] \cup \{(e.\text{id}, f)\} \\
+\\
+&\textbf{for each } k \in \text{FaceMap:} \\
+&\quad \textbf{if } |\text{FaceMap}[k]| = 2: \\
+&\qquad \text{Identify coarse vs refined element} \\
+&\qquad \text{Register interface for constraint enforcement} \\
+\end{aligned}
+$$
 
 This blog outlines the general algorithm. Implementation details are proprietary and remain part of the closed-source R3HCS project.
 

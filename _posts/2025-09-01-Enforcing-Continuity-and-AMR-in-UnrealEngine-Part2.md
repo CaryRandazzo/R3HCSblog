@@ -94,7 +94,6 @@ $$
 &\textbf{procedure } \text{EmitPatchGeometry}(k,\;\text{coarse},\;\text{faceIdx},\;\text{refinedParent}) \\
 &\quad n_u \gets 2,\;\; n_v \gets 2 \quad \text{// uniform 2×2 refinement on neighbor face} \\
 \\
-&\quad \text{// 1) Build a 3×3 parametric grid on the coarse face} \\
 &\quad \text{Vgrid} \gets \emptyset \\
 &\quad \textbf{for } i=0..n_u: \\
 &\qquad u \gets i / n_u \\
@@ -103,7 +102,6 @@ $$
 &\qquad\quad (p,n,t,uv) \gets \text{SampleCoarseFace}(\text{coarse},\;\text{faceIdx},\;u,\;v) \\
 &\qquad\quad \text{Vgrid}[i,j] \gets (p,n,t,uv) \\
 \\
-&\quad \text{// 2) Snap shared border to refined neighbor} \\
 &\quad \text{sharedEdge} \gets \text{WhichBorderOfFace}(\text{faceIdx},\;\text{coarse},\;\text{refinedParent}) \\
 &\quad E \gets \text{RefinedEdgeVerticesOnInterface}(\text{refinedParent},\;\text{faceIdx}) \\
 &\quad \textbf{for } q=0..2: \\
@@ -112,7 +110,6 @@ $$
 &\qquad \text{Vgrid}[i^*,j^*].n \gets \text{BlendNormals}(\text{Vgrid}[i^*,j^*].n,\;E[q].n) \\
 &\qquad \text{Vgrid}[i^*,j^*].uv \gets E[q].uv \\
 \\
-&\quad \text{// 3) Triangulate the 2×2 grid cells into 8 triangles} \\
 &\quad V \gets \text{FlattenGrid}(\text{Vgrid}),\;\; I \gets \emptyset \\
 &\quad \textbf{for } i=0..(n_u-1): \\
 &\qquad \textbf{for } j=0..(n_v-1): \\

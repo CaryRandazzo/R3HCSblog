@@ -47,7 +47,6 @@ RegisterInterace flags the two faces for continuity enforcement. Continuity on t
 $$
 \begin{aligned}
 &\textbf{procedure } \text{FindAndRegisterInterfaces}: \\
-&\textbf{procedure } \text{FindAndRegisterInterfaces}: \\
 &\quad \textbf{for each } \text{shared face between two elements:} \\
 &\qquad \textbf{if } \text{both sides of the face exist:} \\
 &\qquad\quad \text{determine if the face is between a coarse and a refined element} \\

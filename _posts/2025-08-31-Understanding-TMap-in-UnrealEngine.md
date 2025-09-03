@@ -72,3 +72,6 @@ MyMap.Remove(12345);
 ```
 
 To me, these kind of nuances are why it is important to use the tools UE has implemented over raw C++ alternatives. With respect to project development, interfacing, and performance, it is essential.
+
+See you in the next post,
+<br>Cary

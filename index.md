@@ -13,9 +13,9 @@ This is the public record of development for the Realtime 3D Heat Conduction Sim
 
 ## Featured Posts
 
-- [Why I Rebuilt R3HCS](/2025/08/02/why-i-rebuilt-r3hcs.html)
+- [Why I Rebuilt R3HCS](/R3HCSblog/2025/08/02/why-i-rebuilt-r3hcs.html)
 
-After leading development on a real-time simulation system in a prior role, I decided to build an original version to push my skills further as well as the performance of the system while experimenting with a variety of different approaches...[continue](/2025/08/02/why-i-rebuilt-r3hcs.html)
+After leading development on a real-time simulation system in a prior role, I decided to build an original version to push my skills further as well as the performance of the system while experimenting with a variety of different approaches...[continue](/R3HCSblog/2025/08/02/why-i-rebuilt-r3hcs.html)
 
 ## Recent Posts
 

@@ -22,7 +22,7 @@ After leading development on a real-time simulation system in a prior role, I de
 <ul>
   {% for post in site.posts %}
     <li>
-      <a href="{{ post.url }}">{{ post.title }}</a>
+      <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
       <small>— {{ post.date | date: "%B %d, %Y" }}</small>
     </li>
   {% endfor %}

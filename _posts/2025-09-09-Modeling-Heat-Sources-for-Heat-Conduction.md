@@ -6,11 +6,15 @@ date: 2025-09-09
 
 Good day,
 
+### Introduction
+
 One of the most important parts of creating a real-time 3D Heat Conduction Simulation is modeling the heat source as accurately as possible. If the system is in thermal equillibrium at time t, then for all future time the only way for heat to conduct is there to be heat input somewhere.
 
 Now, the type of heat input model that we choose depends largely on the application area we are working with. For example, if our goal is to simulate welding $-$ specifically shielded metal arc welding(SMAW), then there are many well established scientific models to work with for that purpose.
 
 For this project, I would like to retain flexibility in the structure used to hold the heat source logic so that various applications including welding could be simulated.
+
+### Applications of Heat Inputs for Heat Conduction 
 
 I'll list a few heat conduction applications of interest:
 - welding
@@ -32,11 +36,16 @@ There are plenty of computer aided enginering and design systems on the market, 
 
 But I digress, as we move forward in this post, I will pick one of a few application areas to simulate initially, and from there design and Implement heat input models that make sense for the current scope of the project.
 
+
+### Design and Implementation
+
 I will look at and probably go through details of various research papers in what will probably be a multi part post series on heat sources and heat input models.
 
 As for the implementation, it is my belief that the component system in UE allows for a comfortable amount of encapsulation and modularity. Also, in the event that I want to use or expose pieces of a system to blueprints, it would allow for a smooth transition. 
 
 Since performance is a critical issue in this kind of simulation, I will default to not using blueprints and doing so selectively as desired.
+
+### Outro
 
 I go into more detail about my thoughts on and how to implement Components in C++ in UE <a href="{{ site.baseurl }}{% post_url R3HCSblog/2025-09-09-components-in-ue-c++ %}">here</a>
 

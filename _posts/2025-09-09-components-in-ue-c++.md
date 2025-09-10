@@ -6,11 +6,12 @@ date: 2025-09-09
 
 Good day,
 
+### Introduction
 As I have said elsewhere, it is my belief that the component system in UE allows for a comfortable amount of encapsulation and modularity. Also, in the event that I want to use or expose pieces of a system to blueprints, it would allow for a smooth transition.
 
 Here is the requirements for creating a Component in UE. I'll go through doing it via the editor as much as possible first, then transition to C++ as needed, and finally demonstrate settup up a new component entirely in C++.
 
-For the editor method:
+### For the editor method:
 - First, go to Tools (fyi, I am using Unreal Engine version 5.5.4 at the time of this post) and the Add C++ Class window should pop up. 
 
 In the list, you can see actually there are two kinds of Components to choose from: Actor Component and Scene Component. 
@@ -57,12 +58,32 @@ These Component type classes are structures native to the engine and as such all
 
 Removing a component from the system would likely follow a similar process to changing the class from public/private in the note above.
 
+### For the C++ Method:
+
+- Close both UE and your IDE
+- Navigate to project folder under source
+- Create MyActorComponent.h and MyActorComponent.cpp in your chosen access modifiers (private / public based on the directory the files go). You can change MyActorComponent to whatever you wish the name to be
+-  Now, open the header file and cpp file in IDE and add the following code
+
 ```cpp
+// MyActorComponent.h
 void PlaceHolderCode();
 ```
 
-Example of when it might make sense to use an Actor Component:
+```cpp
+//MyActorComponent.cpp
+// etc.
+```
+- and finally ...
+
+### Example of when it might make sense to use an Actor Component:
 - You have some logic you want to encapsulate, but should be accessible and exercised by an Actor that will/does exist in a scene
 - You want modularity of the encapsulated logic such that you can move that logic onto other and/or multiple actors
 
+
+### Outro
+
 Perhaps you have simulated a heat conduction system and you want the user/player to be able to choose from or experience multiple heat source objects at will or simultaneously.
+
+See you in the next post,
+<br>Cary

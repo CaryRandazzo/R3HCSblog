@@ -11,7 +11,7 @@ As I have said elsewhere, it is my belief that the component system in UE allows
 Here is the requirements for creating a Component in UE. I'll go through doing it via the editor as much as possible first, then transition to C++ as needed, and finally demonstrate settup up a new component entirely in C++.
 
 For the editor method:
-1. First, go to Tools (fyi, I am using Unreal Engine version 5.5.4 at the time of this post) and the Add C++ Class window should pop up. 
+- First, go to Tools (fyi, I am using Unreal Engine version 5.5.4 at the time of this post) and the Add C++ Class window should pop up. 
 
 In the list, you can see actually there are two kinds of Components to choose from: Actor Component and Scene Component. 
 
@@ -19,7 +19,7 @@ According to the text, An Actor component is a reusable component that can be ad
 
 A Scene Component maybe a slightly different process with some different nuances. For now, the remaining steps will assume we are interested in the Actor Component, so click on that and click Next. 
 
-2. Now, you can choose to make the Actor Component Class as either a Public Class or Private Class. 
+- Now, you can choose to make the Actor Component Class as either a Public Class or Private Class. 
 
 The choice between the two primarily relates to the visibility and accessibility of the class across different modules within your Unreal Engine project. 
 
@@ -45,13 +45,13 @@ To do that, you would close UE and any IDE open with the project, navigate to th
 
 After doing so, you then need to regenerate the project files by right clicking on the .uproject file and select "Generate Visual Studio project files", and finally you reopen your IDE and build the solution.
 
-3. Next, choose the name you want for the actor component such as MyActorComponent. 
+- Next, choose the name you want for the actor component such as MyActorComponent. 
 
 The right drop down box allows you to choose the target module for your new class and should default to your current project runtime.
-4. Next, select the path to where the class files will live - the window shows based on the parent path where the header and source file paths go to respectively. 
+- Next, select the path to where the class files will live - the window shows based on the parent path where the header and source file paths go to respectively. 
 
 I recommend leaving this at the default location unless you have reason to change it.
-5. Finally, we click the create class button and the files are created with the template setup according to our choices, and Visual Studio may open up following creation of this class.
+- Finally, we click the create class button and the files are created with the template setup according to our choices, and Visual Studio may open up following creation of this class.
 
 These Component type classes are structures native to the engine and as such all the code related to the reflection system will be in it by default and should not be removed, else the component itself should become useless at best and at worst corrupt and crash the build. 
 

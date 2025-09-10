@@ -8,7 +8,7 @@ Good day,
 
 One of the most important parts of creating a real-time 3D Heat Conduction Simulation is modeling the heat source as accurately as possible. If the system is in thermal equillibrium at time t, then for all future time the only way for heat to conduct is there to be heat input somewhere.
 
-Now, the type of heat input model that we choose depends largely on the application area we are working with. For example, if our goal is to simulate welding - specifically shielded metal arc welding(SMAW), then there are many well established scientific models to work with for that purpose.
+Now, the type of heat input model that we choose depends largely on the application area we are working with. For example, if our goal is to simulate welding $-$ specifically shielded metal arc welding(SMAW), then there are many well established scientific models to work with for that purpose.
 
 For this project, I would like to retain flexibility in the structure used to hold the heat source logic so that various applications including welding could be simulated.
 

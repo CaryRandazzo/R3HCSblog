@@ -6,8 +6,7 @@ date: 2025-09-09
 
 Good day,
 
-One of the most important parts of creating a real-time 3D Heat Conduction Simulation is modeling the heat source as accurately as possible. If the system is in thermal equillibrium at time t,
-then for all future time the only way for heat to conduct is there to be heat input somewhere.
+One of the most important parts of creating a real-time 3D Heat Conduction Simulation is modeling the heat source as accurately as possible. If the system is in thermal equillibrium at time t, then for all future time the only way for heat to conduct is there to be heat input somewhere.
 
 Now, the type of heat input model that we choose depends largely on the application area we are working with. For example, if our goal is to simulate welding 
 - specifically shielded metal arc welding(SMAW), then there are many well established scientific models to work with for that purpose.
@@ -42,18 +41,8 @@ I will look at and probably go through details of various research papers in wha
 As for the implementation, it is my belief that the component system in UE allows for a comfortable amount of encapsulation and modularity. Also, in the event that I want to use or expose pieces of a
 system to blueprints, it would allow for a smooth transition. Since performance is a critical issue in this kind of simulation, I will default to not using blueprints and doing so selectively as desired.
 
-I go into more detail about my thoughts on and how to implement Components in C++ in UE <a href="{% post_url 2025-09-09-components-in-ue-c++ %}">here</a>
+I go into more detail about my thoughts on and how to implement Components in C++ in UE <a href="{% post_url R3HCSblog/2025-09-09-components-in-ue-c++ %}">here</a>
 if you are interested.
-
-$$
-\begin{aligned}
-&\textbf{function } \text{GetAdjacentFaces}(\text{faceRegistry},\; \text{key}): \\
-&\quad \textbf{if } \text{key exists in faceRegistry}: \quad \textbf{return } \text{all entries mapped to key} \\
-&\quad \textbf{else}: \quad \textbf{return } \emptyset
-\end{aligned}
-$$
-
-
 
 See you in the next post,
 <br>Cary

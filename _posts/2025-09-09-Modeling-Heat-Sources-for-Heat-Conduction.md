@@ -38,7 +38,8 @@ As for the implementation, it is my belief that the component system in UE allow
 
 Since performance is a critical issue in this kind of simulation, I will default to not using blueprints and doing so selectively as desired.
 
-I go into more detail about my thoughts on and how to implement Components in C++ in UE <a href="{% post_url R3HCSblog/2025-09-09-components-in-ue-c++ %}">here</a>
+I go into more detail about my thoughts on and how to implement Components in C++ in UE <a href="{{ site.baseurl }}{% post_url R3HCSblog/2025-09-09-components-in-ue-c++ %}">here</a>
+
 if you are interested.
 
 See you in the next post,

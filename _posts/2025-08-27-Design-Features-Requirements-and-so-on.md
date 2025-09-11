@@ -14,7 +14,7 @@ I had learned from previous exercises that making custom components in UE has it
 
 Performance will be a key requirement of this project. For it to be Real-Time it should feel as such. Thus, some thought will be put into what and how the performance is constrained and optimized. Time Complexity Analysis of algorithms will be done prior to implementation and initially the system will utilize the CPU, but the door will be open for utilizing GPU based compute shaders courtesy of UE and my local hardware GPU.
 
-<b>Hardware Used</b>
+### Hardware Used
 
 Speaking of local hardware, the hardware setup that I am currently running on and will be testing this system on is as follows:
 - 8GB VRAM NVidia GeForce RTX 4060 TI
@@ -24,7 +24,7 @@ Speaking of local hardware, the hardware setup that I am currently running on an
 
 Recently, I have developed an interest i VR environments, so as necessary I may interface R3HCS with VR.
 
-<b>Initial Design Sketch</b>
+### Initial Design Sketch
 - Unreal Engine
 - Libraries
 - Performance (use cpu when possible, but GPU for applying system to complex objects)
@@ -44,6 +44,46 @@ Recently, I have developed an interest i VR environments, so as necessary I may 
 - Adaptive Mesh Refinement at some point
 - A decision still needs to be made about what type of objects this system will be designed to handle - large complex, or relatively small? etc.
 
+### Applications
+
+I have several areas of application I am interested in and can choose from. I'll list a few:
+- Welding
+- Blacksmithing
+- Metal melting (think furnaces and foundries)
+- Game applications (something like a heat ray, etc.)
+- Heat Transfer Analysis (If some kind of heat is applied, how does it affect the work object)
+- Heat Transfer processes during Nuclear Fission and Nuclear fusion (note, the heat transfer mechanisms involved in these nuclear processes are mostly convection and radiation, although anything the burning hot materials come in physical contact with would be subject to heat conduction laws)
+- Cooking (this and some other areas is less of interest for me, but it would be possible to look at this)
+- Analysing the effectiveness of insulations such as for houses
+- improving temperature regulation of houses (relies on heat conducting sensors)
+- heat sink design and Analysis
+- electrical component design and analysis (with respect to heat effects)
+- heat from heat engines can be analyzed and heat profiles can be used for analysis
+
+The first area of application that I intend to focus on is oven like heating. Now, the interesting thing about some ovens are that there is heat transfer from conduction, convection, and radiation. It is possible that most of the heat transfer happens via convective heat transfer such as with a convection oven. In some cases, the system may require only simulating one kind of 
+heat transfer method, but in this case we will make a simulation that uses all of them with the first goal of making perhaps a convective oven.
+
+### Modeling the Heat Conduction System
+
+For that to happen, I will likely focus on implementing a Finite Element Method(FEM) based simulation system perhaps with some AI elements or modifications where I find it useful or interesting, and apply convection and radiative heat transfer on the boundary of an object (workpiece) where the main internal heat transfer is given by the PDE for heat conduction (Fourier's Law of Conduction, in this case the 3D transient formulation). In this manner, convection and radiation will act as a heat source or heat flux onto the object being heated which will then experience conductive heat transfer internally depending on where the incident boundary heat source comes in from.
+
+Our starting point then is Fourier's Law of Conduction in 3D Transient form:
+
+$$
+\rho c_p \fraction{\partial T}{\partial t} = \nabla \cdot -k \nabla T = q(x,y,z,t)
+$$
+
+### A thought about future design goals
+
+It occurs to me, that I would like to explore not only simulating heat conduction, but also convection by way of computational fluid dynamics(CFD) and several other processes.
+
+There are plenty of computer aided enginering and design systems on the market, but it would be interesting to see a real-time tool like this transform an Unreal Engine(UE) Plugin or Project into an analysis or teaching tool, or even as a way for others trying to create unique or specific real life experiences perhaps within games.
+
+### Outro
+
+At a later time, I will summarize and bring this initial design document to a close, although future feature by feature design docs may come.
 
 See you in the next post,
 <br>Cary
+
+***Updated 2025-09-10***

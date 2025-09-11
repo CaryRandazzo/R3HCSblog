@@ -63,15 +63,36 @@ I have several areas of application I am interested in and can choose from. I'll
 The first area of application that I intend to focus on is oven like heating. Now, the interesting thing about some ovens are that there is heat transfer from conduction, convection, and radiation. It is possible that most of the heat transfer happens via convective heat transfer such as with a convection oven. In some cases, the system may require only simulating one kind of 
 heat transfer method, but in this case we will make a simulation that uses all of them with the first goal of making perhaps a convective oven.
 
-### Modeling the Heat Conduction System
+### How to Model the Heat Conduction System
 
-For that to happen, I will likely focus on implementing a Finite Element Method(FEM) based simulation system perhaps with some AI elements or modifications where I find it useful or interesting, and apply convection and radiative heat transfer on the boundary of an object (workpiece) where the main internal heat transfer is given by the PDE for heat conduction (Fourier's Law of Conduction, in this case the 3D transient formulation). In this manner, convection and radiation will act as a heat source or heat flux onto the object being heated which will then experience conductive heat transfer internally depending on where the incident boundary heat source comes in from.
+ To model the 3 heat  transfer processes, I will focus on a Finite Element Method(FEM) based simulation system perhaps with some AI pieces or modifications where it is useful or interesting. I'll apply convective and radiative heat transfer on the boundary of an object (workpiece) where  it then conducts heat as described by the PDE: Fourier's Law of Conduction. In this case, the 3D transient formulation is used.
 
 Our starting point then is Fourier's Law of Conduction in 3D Transient form:
 
 $$
-\rho c_p \fraction{\partial T}{\partial t} = \nabla \cdot -k \nabla T = q(x,y,z,t)
+\rho c_p \frac{\partial T}{\partial t} - \nabla \cdot k \nabla T = q(x,y,z,t)
 $$
+
+from there, we will begin solving the FEM on this PDE using a standard bein method such as the galerkin method.
+
+The full details of the model design is given in a separate post here.
+
+with the model designed, focus can now turn to  initial mplementation design decisions
+
+### initial implementation design
+
+- Mesh
+- adaptive mesh refinement
+- elements
+- hardware parameters
+- material parameters (of workpiece object)
+- method to attach and detach components to workpieces/objects
+- when and how that attachment will occur
+- data access and transfer design
+- algorithms and complexity
+- trees, insertion, and traversal
+- main solver
+- ...
 
 ### A thought about future design goals
 

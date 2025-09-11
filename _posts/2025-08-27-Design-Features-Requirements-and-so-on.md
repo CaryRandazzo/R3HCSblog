@@ -3,7 +3,7 @@ layout: post
 title: "Design, Features, Requirements and so on."
 date: 2025-08-27
 categories: [category1, category2]
-tags: [Design]
+tag: Design
 ---
 
 Good day,

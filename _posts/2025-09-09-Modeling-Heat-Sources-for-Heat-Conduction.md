@@ -2,7 +2,7 @@
 layout: post
 title: "Modeling Heat Sources for Heat Conduction in Unreal Engine"
 date: 2025-09-09
-tags: [HeatInput]
+tag: HeatInput
 ---
 
 Good day,

@@ -2,7 +2,7 @@
 layout: post
 title: "Components in Unreal Engine C++"
 date: 2025-09-09
-tags:[UnrealC++]
+tag: UnrealC++
 ---
 
 Good day,

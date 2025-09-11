@@ -2,7 +2,7 @@
 layout: post
 title: "Enforcing Continuity and AMR in Unreal Engine"
 date: 2025-08-31
-tags: [AMR]
+tag: AMR
 ---
 
 Good day,
